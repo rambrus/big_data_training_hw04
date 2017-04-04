@@ -1,0 +1,51 @@
+http://www.met.hu/eghajlat/magyarorszag_eghajlata/eghajlati_adatsorok/Budapest/leirasok/tortenet/
+
+http://owww.met.hu/eghajlat/eghajlati_adatsorok/bp/Navig/Index2_EN.htm
+
+DESCRIPTION OF MEASURING AND COMPUTING METHODS OF DAILY DATA
+
+
+In Hungary the meteorological observations are carried out according to the Central European Time (CET) as this is independent of setting the clocks in spring and autumn. In winter it is the same as the Hungarian Local Time (HLT), but in summer the local time is more by one hour due to the daylight-saving-time.
+
+Mean temperature [ºC] d_ta
+
+In the Hungarian observation network, between 1901 and 1965, observations three times a day were characteristic at 07, 14 and 21 oclock according to Central European Time. Upon the recommendation of the World Meteorological Organization (WMO) the daily mean temperature is computed not only as a mean of the three values but the data of 21 oclock are taken into account with double weight (d_ta=(t07+t14+2*t21)/4).
+In 1966 the times of the observations changed to 07, 13 and 19 oclock. The night data of 01 oclock were read from the thermograph. The daily mean temperature is computed as a mean of the four values (d_ta=(t01+t07+t13+t19)/4).
+Since the installation of the automatons (1 January 1998) the computation of daily mean temperature has not practically changed, all the four data come from the measurements of the automatons.
+The mean temperatures are defined in every period with an accuracy of 2 decimals, but in the data files the values rounded to 1 decimal appear. In the formulas using daily mean temperatures (monthly, yearly means) we are computing always with data with accuracy of 2 decimals.
+
+Maximum temperature [ºC] d_tx
+
+The maximum thermometer was always read on the occasion of the observation in the evening (21 CET) between 1901 and 1965. Thus, the maximum temperature of the actual day is the highest temperature in the 24-hour period between 21 oclock of the previous day and 21 oclock of the actual day.
+From 1966 the maximum thermometer was read twice a day, in the morning (07 CET) and in the evening (19 CET). The daily maximum temperature is the maximum of these two values. Thus, the maximum temperature of the actual day is the highest temperature in the 24-hour period between 19 oclock of the previous day and 19 oclock of the actual day. In the interest of the homogeneity of the time series this 24-hour period did not change with the installation of automatons.
+
+Minimum temperature [ºC] d_tn
+
+The minimum thermometer was always read on the occasion of the observation in the evening (21 CET) between 1901 and 1965. Thus, the minimum temperature of the actual day is the lowest temperature in the 24-hour period between 21 oclock of the previous day and 21 oclock of the actual day.
+From 1966 the minimum thermometer was read twice a day, in the morning (07 CET) and in the evening (19 CET). The daily minimum temperature is the minimum of these two values. Thus, the minimum temperature of the actual day is the lowest temperature in the 24-hour period between 19 oclock of the previous day and 19 oclock of the actual day. In the interest of the homogeneity of the time series this 24-hour period did not change with the installation of automatons
+
+Precipitation amount [mm] d_rs
+
+The precipitation amount was determined on the occasion of the observation in the morning (07 CET) during the whole period. Thus the precipitation of the actual day is the amount of precipitation fallen in the 24-hour period between 07 oclock of the actual day and 07 oclock of the following day. We make difference between the two cases, i.e. when there is no precipitation at all and when there is some precipitation but its quantity is not measurable. The former is indicated by a point the other by 0.0 in the data files.
+
+Type of precipitation d_rf
+
+The daily data files contain the type of precipitation in coded form. Generally, the more and more significant precipitation events belong to the higher value of the code. For example the number 9 means the thunderstorm with hail. The codes were introduced in the 1980s according to the possibilities of the information technology that time, so only ten different codes were applied. Thus, more symbols used in the traditional precipitation stations today belong to the individual codes.
+
+code    description
+0       fog drizzle, drizzle
+1       rain
+2       freezing rain, freezing drizzle
+3       rain shower
+4       snow, mixed rain and snow
+5       snow shower, shower of snow pellets
+6       hail, ice pellets
+7       thunderstorm (may occur without precipitation)
+8       snow-storm
+9       thunderstorm with hail
+
+On days when more than one type of precipitation occurred, the code with the highest value is applied.
+
+Sunshine duration [hour] d_ss
+
+The determination of sunshine duration has not been changed since the beginning of the measurements. The record cards collected in the evening hours are evaluated broken down by hours with an accuracy of one tenth hour. The sum of the hourly data is the sunshine duration of the actual day.

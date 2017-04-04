@@ -1,0 +1,4 @@
+*.java eol=lf
+*.scala eol=lf
+*.properties eol=lf
+*.xml eol=lf
