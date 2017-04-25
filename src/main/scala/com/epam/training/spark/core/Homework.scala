@@ -62,8 +62,11 @@ object Homework {
   def getRawDataWithoutHeader(sc: SparkContext, rawDataPath: String): RDD[List[String]] =
     sc.textFile(rawDataPath).filter(!_.startsWith("#")).map(_.split(";", 7).toList)
 
-  def findErrors(rawData: RDD[List[String]]): List[Int] =
-    rawData.collect.map(e => e count (_.equals(""))).toList
+  def findErrors(rawData: RDD[List[String]]): List[Int] = {
+    val numberOfFields = rawData.first().length
+
+    (0 until numberOfFields).map(i => rawData.filter(row => row(i) == "").count().toInt).toList
+  }
 
   def mapToClimate(rawData: RDD[List[String]]): RDD[Climate] =
     rawData.map(e => Climate(e(0), e(1), e(2), e(3), e(4), e(5), e(6)))
