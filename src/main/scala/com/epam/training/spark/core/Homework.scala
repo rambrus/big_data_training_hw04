@@ -78,7 +78,7 @@ object Homework {
   def predictTemperature(climateData: RDD[Climate], month: Int, dayOfMonth: Int): Double = {
     val relevantData = climateData.filter(c => c.observationDate.getMonthValue == month && (dayOfMonth - 1 to dayOfMonth + 1).contains(c.observationDate.getDayOfMonth))
 
-    relevantData.map(e => e.meanTemperature.value).mean
+    relevantData.map(c => c.meanTemperature.value).mean
   }
 }
 
