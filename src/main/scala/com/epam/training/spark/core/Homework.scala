@@ -63,9 +63,10 @@ object Homework {
     sc.textFile(rawDataPath).filter(!_.startsWith("#")).map(_.split(";", 7).toList)
 
   def findErrors(rawData: RDD[List[String]]): List[Int] = {
-    val numberOfFields = rawData.first().length
+    val faultyRows = rawData.filter(row => row.contains("")).cache()
+    val numberOfFields = faultyRows.first().length
 
-    (0 until numberOfFields).map(i => rawData.filter(row => row(i) == "").count().toInt).toList
+    (0 until numberOfFields).map(i => faultyRows.filter(row => row(i) == "").count().toInt).toList
   }
 
   def mapToClimate(rawData: RDD[List[String]]): RDD[Climate] =
@@ -75,20 +76,10 @@ object Homework {
     climateData.filter(e => e.observationDate.getMonthValue == month && e.observationDate.getDayOfMonth == dayOfMonth).map(e => e.meanTemperature.value)
 
   def predictTemperature(climateData: RDD[Climate], month: Int, dayOfMonth: Int): Double = {
-    val climateDataArray = climateData.collect
-    var matchingClimateData: Array[Climate] = Array()
+    val relevantData = climateData.filter(c => c.observationDate.getMonthValue == month && (dayOfMonth - 1 to dayOfMonth + 1).contains(c.observationDate.getDayOfMonth))
 
-    for (i <- climateDataArray.indices) {
-      if (climateDataArray(i).observationDate.getMonthValue == month && climateDataArray(i).observationDate.getDayOfMonth == dayOfMonth) {
-        matchingClimateData = matchingClimateData ++ Array(climateDataArray(i - 1), climateDataArray(i), climateDataArray(i + 1))
-      }
-    }
-
-    matchingClimateData.map(e => e.meanTemperature.value).sum / matchingClimateData.size
-    climateDataArray.map(e => e.meanTemperature.value).sum / climateDataArray.size
+    relevantData.map(e => e.meanTemperature.value).mean
   }
-
-
 }
 
 
