@@ -1,5 +1,7 @@
 package com.epam.training.spark.core
 
+import java.time.LocalDate
+
 import com.epam.training.spark.core.domain.Climate
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
@@ -63,10 +65,9 @@ object Homework {
     sc.textFile(rawDataPath).filter(!_.startsWith("#")).map(_.split(";", 7).toList)
 
   def findErrors(rawData: RDD[List[String]]): List[Int] = {
-    val faultyRows = rawData.filter(row => row.contains("")).cache()
-    val numberOfFields = faultyRows.first().length
+    val colNumber = rawData.first().size
 
-    (0 until numberOfFields).map(i => faultyRows.filter(row => row(i) == "").count().toInt).toList
+    for (i <- 0 until colNumber toList) yield rawData.map(row => row(i)).map(f => if (f=="") 1 else 0).reduce(_ + _)
   }
 
   def mapToClimate(rawData: RDD[List[String]]): RDD[Climate] =
@@ -76,9 +77,9 @@ object Homework {
     climateData.filter(e => e.observationDate.getMonthValue == month && e.observationDate.getDayOfMonth == dayOfMonth).map(e => e.meanTemperature.value)
 
   def predictTemperature(climateData: RDD[Climate], month: Int, dayOfMonth: Int): Double = {
-    val relevantData = climateData.filter(c => c.observationDate.getMonthValue == month && (dayOfMonth - 1 to dayOfMonth + 1).contains(c.observationDate.getDayOfMonth))
+    def isRelevantDate(observationDate: LocalDate): Boolean = (-1 to 1).map(i => observationDate.plusDays(i)).exists(o => o.getMonthValue == month && o.getDayOfMonth == dayOfMonth)
 
-    relevantData.map(c => c.meanTemperature.value).mean
+    climateData.filter(c => isRelevantDate(c.observationDate)).map(c => c.meanTemperature.value).mean
   }
 }
 
